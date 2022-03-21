@@ -97,8 +97,15 @@ public class Demo {
                 .forEach(trackNames::add);
 
         for (Album album : albums) {
-            album.getMusicians().stream().collect(Collectors.toList());
+            // 音乐人， 等价于new ArrayList<>(album.getMusicians())
+            final List<Artist> musicians = album.getMusicians().stream().collect(Collectors.toList());
+            // 乐队
+            final List<Artist> bands = musicians.stream().filter(artist -> artist.getName().startsWith("The")).collect(Collectors.toList());
+            // 乐队的国籍
+            final List<String> origins = bands.stream().map(Artist::getNationality).collect(Collectors.toList());
         }
+
+
         return trackNames;
     }
 

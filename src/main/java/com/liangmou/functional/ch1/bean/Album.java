@@ -12,5 +12,5 @@ import java.util.stream.Stream;
 public class Album {
     private String name;
     private List<Track> tracks;
-    private List<String> musicians;
+    private List<Artist> musicians;
 }
