@@ -15,6 +15,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import java.util.*;
+import java.util.function.BiFunction;
 import java.util.function.IntBinaryOperator;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -109,6 +110,16 @@ public class Demo {
         return trackNames;
     }
 
+    @Test
+    public void printTrackLengthStatistics(Album album) {
+        // 摘要统计信息 -> summary Statistics
+        final IntSummaryStatistics trackLengthStats = album.getTracks().stream().mapToInt(Track::getLength).summaryStatistics();
+        System.out.printf("Max: %d, Min: %d, Ave %f, Sum: %d",
+                trackLengthStats.getMax(),
+                trackLengthStats.getMin(),
+                trackLengthStats.getAverage(),
+                trackLengthStats.getSum());
+    }
 
 }
 

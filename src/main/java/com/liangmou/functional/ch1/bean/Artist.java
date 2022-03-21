@@ -15,4 +15,7 @@ public class Artist {
     private String origin;
 
     private String nationality;
+
+
+
 }
