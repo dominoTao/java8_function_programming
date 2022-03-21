@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: kafka-demo
+server:
+  port: 80
+  servlet:
+    context-path: /
