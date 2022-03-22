@@ -1,7 +1,6 @@
 package com.liangmou.functional.ch1.bean;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,4 +13,8 @@ import lombok.NoArgsConstructor;
 public class Track {
     private String name;
     private Integer length;
+
+    public Track copy() {
+        return new Track(name, length);
+    }
 }

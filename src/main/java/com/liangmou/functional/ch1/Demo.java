@@ -1,24 +1,24 @@
 package com.liangmou.functional.ch1;
 
+import com.google.common.base.Function;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.liangmou.functional.ch1.bean.Album;
 import com.liangmou.functional.ch1.bean.Artist;
 import com.liangmou.functional.ch1.bean.Track;
-import com.sun.javafx.logging.PulseLogger;
 import lombok.extern.slf4j.Slf4j;
-import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import java.util.*;
-import java.util.function.BiFunction;
 import java.util.function.IntBinaryOperator;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.*;
 
 @Slf4j
 @RunWith(JUnit4.class)
@@ -99,7 +99,7 @@ public class Demo {
 
         for (Album album : albums) {
             // 音乐人， 等价于new ArrayList<>(album.getMusicians())
-            final List<Artist> musicians = album.getMusicians().stream().collect(Collectors.toList());
+            final List<Artist> musicians = album.getMusicians().collect(Collectors.toList());
             // 乐队
             final List<Artist> bands = musicians.stream().filter(artist -> artist.getName().startsWith("The")).collect(Collectors.toList());
             // 乐队的国籍
@@ -120,6 +120,42 @@ public class Demo {
                 trackLengthStats.getAverage(),
                 trackLengthStats.getSum());
     }
+    @Ignore
+    public Optional<Artist> biggestGroup(Stream<Artist> artits) {
+        final Function<Artist, Long> getCount = artist -> artist.getMembers().count();;
+        return artits.collect(maxBy(comparing(getCount)));
+    }
 
+    @Ignore
+    public void toCollectionTreeset() {
+        Stream<Integer> stream = Stream.of(1, 2, 3);
+        // BEGIN TO_COLLECTION_TREESET
+        stream.collect(toCollection(TreeSet::new));
+        // END TO_COLLECTION_TREESET
+    }
+    @Ignore
+    public double averageNumberOfTracks(List<Album> albums){
+        final Double collect = albums.stream().collect(averagingInt(album -> album.getTracks().size()));
+        return collect;
+    }
+//    https://github.com/RichardWarburton/java-8-lambdas-exercises/blob/master/src/main/java/com/insightfullogic/java8/examples/chapter5/CollectorExamples.java
+
+    /**
+     * 数据分块
+     * @param artists
+     * @return
+     */
+    public Map<Boolean, List<Artist>> bandsAndSolo(Stream<Artist> artists) {
+        return artists.collect(partitioningBy(Artist::isSolo));
+    }
+
+    /**
+     * 数据分组
+     * @param albums
+     * @return
+     */
+    public Map<Artist, List<Album>> albumsByArtist(Stream<Album> albums) {
+        return albums.collect(groupingBy(album -> album.getMainMusician()));
+    }
 }
 
