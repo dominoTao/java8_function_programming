@@ -37,7 +37,7 @@ public class Album {
 
     public Album copy() {
         List<Track> tracks = getTracks().stream().map(Track::copy).collect(toList());
-        List<Artist> musicians = getMusicians().stream().map(Artist::copy).collect(toList());
+        List<Artist> musicians = getMusicians().map(Artist::copy).collect(toList());
         return new Album(name, tracks, musicians);
     }
 }
