@@ -1,7 +1,17 @@
 spring:
   application:
     name: kafka-demo
+  redis:
+    host: 192.168.0.111
+    port: 6379
+    database: 0
+    connect-timeout: 30000
 server:
   port: 80
   servlet:
     context-path: /
+
+
+
+baseRequest:
+  channel: base_request_channel
